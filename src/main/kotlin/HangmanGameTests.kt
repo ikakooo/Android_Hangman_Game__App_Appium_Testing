@@ -8,36 +8,32 @@ import org.openqa.selenium.remote.DesiredCapabilities
 import java.net.URL
 
 class HangmanGameTests {
-        lateinit var driver: AndroidDriver<WebElement>
+    lateinit var driver: AndroidDriver<WebElement>
 
-        @Before
-        fun driverAndEmulatorSetup() {
-            val cap = DesiredCapabilities()
-            cap.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator-5554")
-            // cap.setCapability(CapabilityType.PLATFORM_NAME,"android")
-            cap.setCapability("platformName", "android")
-            cap.setCapability("appPackage", "com.example.chucknorrisjokes")
-            cap.setCapability("appActivity", ".ui.SplashScreenActivity")
-            cap.setCapability("noReset", true)
-            driver = AndroidDriver(URL("http://localhost:4723/wd/hub"), cap)
+    @Before
+    fun driverAndEmulatorSetup() {
+        val cap = DesiredCapabilities()
+        cap.setCapability(MobileCapabilityType.DEVICE_NAME, "emulator-5554")
+        // cap.setCapability(CapabilityType.PLATFORM_NAME,"android")
+        cap.setCapability("platformName", "android")
+        cap.setCapability("appPackage", "com.example.android_hangman_game")
+        cap.setCapability("appActivity", ".PlayerInitialiseActivity")
+        cap.setCapability("noReset", true)
+        driver = AndroidDriver(URL("http://localhost:4723/wd/hub"), cap)
 
+    }
+
+    @Test
+    fun emulatorConnectionTest() {
+        Assert.assertNotNull(driver.context)
+        Thread.sleep(10000)
+        driver.apply {
+            val appPAth = currentPackage + currentActivity()
+            println(appPAth)
+            Assert.assertEquals("com.example.android_hangman_game.PlayerInitialiseActivity", appPAth)
         }
 
-        @Test
-        fun splashScreenTest() {
-            Assert.assertNotNull(driver.context)
-            driver.apply {
-               // activityChanged(3000)
-                println(currentActivity())
-            }
-
-        }
-
-
-
-
-
-
+    }
 
 
 //        @Test
@@ -86,13 +82,12 @@ class HangmanGameTests {
 //            }
 //        }
 
-        // driver.startActivity(Activity("com.example.chucknorrisjokes", "MarkJokeCategoryActivity").setAppWaitPackage("com.example.chucknorrisjokes").setAppWaitActivity(".ui.MarkJokeCategoryActivity"))
+    // driver.startActivity(Activity("com.example.chucknorrisjokes", "MarkJokeCategoryActivity").setAppWaitPackage("com.example.chucknorrisjokes").setAppWaitActivity(".ui.MarkJokeCategoryActivity"))
 //    @AfterClass
 //    fun quiteTests() {
 //        driver.close()
 //        driver.quit()
 //    }
-
 
 
 }
