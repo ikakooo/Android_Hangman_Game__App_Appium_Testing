@@ -1,7 +1,9 @@
 import DisplayedViews.viewIsDisplayedAssert
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.remote.MobileCapabilityType
+import org.hamcrest.CoreMatchers.endsWith
 import org.junit.Assert
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.openqa.selenium.WebElement
@@ -40,26 +42,52 @@ class HangmanGameTests {
         Thread.sleep(5000)
         driver.apply {
             val nameEditTextField = findElementById("com.example.android_hangman_game:id/playerNameEditTextID")
-            val incognitoWordEditTextField = findElementById("com.example.android_hangman_game:id/incognitoWordEditTextID")
+            val incognitoWordEditTextField =
+                findElementById("com.example.android_hangman_game:id/incognitoWordEditTextID")
             val startGameButton = findElementById("com.example.android_hangman_game:id/startGameButtonID")
             viewIsDisplayedAssert(nameEditTextField)
             viewIsDisplayedAssert(incognitoWordEditTextField)
             viewIsDisplayedAssert(startGameButton)
-/////////////// ილდების შევსება და ახალ ეიჟზე გადასვლა /////////////////
-            nameEditTextField.sendKeys("Test")
-            incognitoWordEditTextField.sendKeys("Test")
-            startGameButton.click()
+
 
         }
-
-
         println(driver.currentActivity())
-
     }
 
     @Test
     fun gameActivityTest() {
+        Thread.sleep(5000)
+        driver.apply {
+            val nameEditTextField = findElementById("com.example.android_hangman_game:id/playerNameEditTextID")
+            val incognitoWordEditTextField =
+                findElementById("com.example.android_hangman_game:id/incognitoWordEditTextID")
+            val startGameButton = findElementById("com.example.android_hangman_game:id/startGameButtonID")
 
+/////////////// ფილდების შევსება და ახალ ფეიჟზე გადასვლა /////////////////
+            nameEditTextField.sendKeys("Test")
+            incognitoWordEditTextField.sendKeys("Test")
+            startGameButton.click()
+////////////// playerInitialiseActivity- ზე გადასვლა და ტესტირება  ///////////////////////////////////////////
+            Thread.sleep(2000)
+            val inputCharFieldEditText = findElementById("com.example.android_hangman_game:id/EditTextID")
+            val tryButton = findElementById("com.example.android_hangman_game:id/TryButtonID")
+            val livesTextView = findElementById("com.example.android_hangman_game:id/livesTextViewID")
+            "TEST".forEach {
+                if (findElementById("com.example.android_hangman_game:id/imageViewWinOrLoseID").isDisplayed){
+                inputCharFieldEditText.sendKeys(it.toString())
+                tryButton.click()}
+            }
+            viewIsDisplayedAssert(findElementById("com.example.android_hangman_game:id/imageViewWinOrLoseID"))
+          assertThat(livesTextView.text, endsWith("8"))
+
+            "qwryuiopadfghjklzxcvbnm".forEach {
+                inputCharFieldEditText.sendKeys(it.toString())
+                tryButton.click()
+            }
+            assertThat(livesTextView.text, endsWith("0"))
+
+
+        }
     }
 
 
