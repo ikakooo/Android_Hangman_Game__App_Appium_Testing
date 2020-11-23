@@ -1,3 +1,4 @@
+import DisplayedViews.viewIsDisplayedAssert
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.remote.MobileCapabilityType
 import org.junit.Assert
@@ -26,12 +27,38 @@ class HangmanGameTests {
     @Test
     fun emulatorConnectionTest() {
         Assert.assertNotNull(driver.context)
-        Thread.sleep(10000)
+        Thread.sleep(5000)
         driver.apply {
             val appPAth = currentPackage + currentActivity()
             println(appPAth)
             Assert.assertEquals("com.example.android_hangman_game.PlayerInitialiseActivity", appPAth)
         }
+    }
+
+    @Test
+    fun playerInitialiseActivityTest() {
+        Thread.sleep(5000)
+        driver.apply {
+            val nameEditTextField = findElementById("com.example.android_hangman_game:id/playerNameEditTextID")
+            val incognitoWordEditTextField = findElementById("com.example.android_hangman_game:id/incognitoWordEditTextID")
+            val startGameButton = findElementById("com.example.android_hangman_game:id/startGameButtonID")
+            viewIsDisplayedAssert(nameEditTextField)
+            viewIsDisplayedAssert(incognitoWordEditTextField)
+            viewIsDisplayedAssert(startGameButton)
+/////////////// ილდების შევსება და ახალ ეიჟზე გადასვლა /////////////////
+            nameEditTextField.sendKeys("Test")
+            incognitoWordEditTextField.sendKeys("Test")
+            startGameButton.click()
+
+        }
+
+
+        println(driver.currentActivity())
+
+    }
+
+    @Test
+    fun gameActivityTest() {
 
     }
 
