@@ -2,8 +2,10 @@ import DisplayedViews.viewIsDisplayedAssert
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.remote.MobileCapabilityType
 import org.hamcrest.CoreMatchers.endsWith
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.contains
+import org.hamcrest.Matchers.containsString
 import org.junit.Assert
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.openqa.selenium.WebElement
@@ -48,8 +50,6 @@ class HangmanGameTests {
             viewIsDisplayedAssert(nameEditTextField)
             viewIsDisplayedAssert(incognitoWordEditTextField)
             viewIsDisplayedAssert(startGameButton)
-
-
         }
         println(driver.currentActivity())
     }
@@ -73,16 +73,25 @@ class HangmanGameTests {
             val tryButton = findElementById("com.example.android_hangman_game:id/TryButtonID")
             val livesTextView = findElementById("com.example.android_hangman_game:id/livesTextViewID")
             "TEST".forEach {
-                if (findElementById("com.example.android_hangman_game:id/imageViewWinOrLoseID").isDisplayed){
-                inputCharFieldEditText.sendKeys(it.toString())
-                tryButton.click()}
+               // if (findElementById("com.example.android_hangman_game:id/imageViewWinOrLoseID").isDisplayed){
+               try{
+                   assertThat(livesTextView.text, containsString("8"))
+                   inputCharFieldEditText.sendKeys(it.toString())
+                   tryButton.click()
+               }catch (e: Exception) {
+                   e.printStackTrace()
+               }
+                //}
             }
             viewIsDisplayedAssert(findElementById("com.example.android_hangman_game:id/imageViewWinOrLoseID"))
-          assertThat(livesTextView.text, endsWith("8"))
+//          assertThat(livesTextView.text, endsWith("8"))
 
             "qwryuiopadfghjklzxcvbnm".forEach {
+                try{
                 inputCharFieldEditText.sendKeys(it.toString())
                 tryButton.click()
+                }catch (e: Exception) {  e.printStackTrace()
+                }
             }
             assertThat(livesTextView.text, endsWith("0"))
 
