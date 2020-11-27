@@ -72,10 +72,19 @@ class HangmanGameTests {
             val inputCharFieldEditText = findElementById("com.example.android_hangman_game:id/EditTextID")
             val tryButton = findElementById("com.example.android_hangman_game:id/TryButtonID")
             val livesTextView = findElementById("com.example.android_hangman_game:id/livesTextViewID")
+            "qwryuiopadfghjklzxcvbnm".forEach {
+                try{
+                    inputCharFieldEditText.sendKeys(it.toString())
+                    tryButton.click()
+                }catch (e: Exception) {  e.printStackTrace()
+                }
+            }
+            navigate().back()
             "TEST".forEach {
+
                // if (findElementById("com.example.android_hangman_game:id/imageViewWinOrLoseID").isDisplayed){
                try{
-                   assertThat(livesTextView.text, containsString("8"))
+                   assertThat(livesTextView.text, containsString("0"))
                    inputCharFieldEditText.sendKeys(it.toString())
                    tryButton.click()
                }catch (e: Exception) {
@@ -86,72 +95,10 @@ class HangmanGameTests {
             viewIsDisplayedAssert(findElementById("com.example.android_hangman_game:id/imageViewWinOrLoseID"))
 //          assertThat(livesTextView.text, endsWith("8"))
 
-            "qwryuiopadfghjklzxcvbnm".forEach {
-                try{
-                inputCharFieldEditText.sendKeys(it.toString())
-                tryButton.click()
-                }catch (e: Exception) {  e.printStackTrace()
-                }
-            }
+
             assertThat(livesTextView.text, endsWith("0"))
 
 
         }
     }
-
-
-//        @Test
-//        fun showJokesActivityTest() {
-//            driver.apply {
-//                activityChanged(4400)
-//                val openFavoriteActivityButton = findElementById("com.example.chucknorrisjokes:id/favorite_ImageView_ID")
-//                val openCategoryActivityButton = findElementById("com.example.chucknorrisjokes:id/choseCategory_Button_ID")
-//                val randomButton = findElementById("com.example.chucknorrisjokes:id/random_Button_ID")
-//                val jokeTextContent = findElementById("com.example.chucknorrisjokes:id/Text_viewID")
-//                val likingButton = findElementById("com.example.chucknorrisjokes:id/favorite_Button_ID")
-///////////// ჩანს თუ არა აქტივიტის ყველა ვიუ იუაიზე ///////////
-//                viewIsDisplayedAssert(likingButton)
-//                likingButton.click()
-//                viewIsDisplayedAssert(likingButton)
-//                viewIsDisplayedAssert(openFavoriteActivityButton)
-//                viewIsDisplayedAssert(openCategoryActivityButton)
-//                viewIsDisplayedAssert(jokeTextContent)
-//                viewIsDisplayedAssert(randomButton)
-/////////////// ხუმრობების ფავორიტებში დამატება
-//                addInFavoritesJokes(likingButton,randomButton,7)
-//                // randomButtonWillChangeJoke(randomButton, jokeTextContent, 3)
-//
-//            }
-//        }
-//
-//
-//        @Test
-//        fun markJokeCategoryActivityTest() {
-//
-//            driver.apply {
-//                activityChanged(4400)
-//                val openCategoryActivityButton = findElementById("com.example.chucknorrisjokes:id/choseCategory_Button_ID")
-//                activityChangedOnButtonClick(openCategoryActivityButton, categoryItemXPath)
-//            }
-//
-//
-//        }
-//
-//        @Test
-//        fun favoritesActivityTest() {
-//            driver.apply { activityChanged(4400)
-//                val openFavoriteActivityButton = findElementById("com.example.chucknorrisjokes:id/favorite_ImageView_ID")
-//                activityChangedOnButtonClick(openFavoriteActivityButton,null)
-//                itemClickWillDisappearItem(openFavoriteActivityButton)
-//            }
-//        }
-
-    // driver.startActivity(Activity("com.example.chucknorrisjokes", "MarkJokeCategoryActivity").setAppWaitPackage("com.example.chucknorrisjokes").setAppWaitActivity(".ui.MarkJokeCategoryActivity"))
-//    @AfterClass
-//    fun quiteTests() {
-//        driver.close()
-//        driver.quit()
-//    }
-
-
 }
