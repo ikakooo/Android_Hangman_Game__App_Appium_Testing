@@ -1,4 +1,5 @@
 import DisplayedViews.viewIsDisplayedAssert
+import Test.inputtingCharsTest
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.remote.MobileCapabilityType
 import org.hamcrest.CoreMatchers.endsWith
@@ -57,48 +58,6 @@ class HangmanGameTests {
     @Test
     fun gameActivityTest() {
         Thread.sleep(5000)
-        driver.apply {
-            val nameEditTextField = findElementById("com.example.android_hangman_game:id/playerNameEditTextID")
-            val incognitoWordEditTextField =
-                findElementById("com.example.android_hangman_game:id/incognitoWordEditTextID")
-            val startGameButton = findElementById("com.example.android_hangman_game:id/startGameButtonID")
-
-/////////////// ფილდების შევსება და ახალ ფეიჟზე გადასვლა /////////////////
-            nameEditTextField.sendKeys("Test")
-            incognitoWordEditTextField.sendKeys("Test")
-            startGameButton.click()
-////////////// playerInitialiseActivity- ზე გადასვლა და ტესტირება  ///////////////////////////////////////////
-            Thread.sleep(2000)
-            val inputCharFieldEditText = findElementById("com.example.android_hangman_game:id/EditTextID")
-            val tryButton = findElementById("com.example.android_hangman_game:id/TryButtonID")
-            val livesTextView = findElementById("com.example.android_hangman_game:id/livesTextViewID")
-            "qwryuiopadfghjklzxcvbnm".forEach {
-                try{
-                    inputCharFieldEditText.sendKeys(it.toString())
-                    tryButton.click()
-                }catch (e: Exception) {  e.printStackTrace()
-                }
-            }
-            navigate().back()
-            "TEST".forEach {
-
-               // if (findElementById("com.example.android_hangman_game:id/imageViewWinOrLoseID").isDisplayed){
-               try{
-                   assertThat(livesTextView.text, containsString("0"))
-                   inputCharFieldEditText.sendKeys(it.toString())
-                   tryButton.click()
-               }catch (e: Exception) {
-                   e.printStackTrace()
-               }
-                //}
-            }
-            viewIsDisplayedAssert(findElementById("com.example.android_hangman_game:id/imageViewWinOrLoseID"))
-//          assertThat(livesTextView.text, endsWith("8"))
-
-
-            assertThat(livesTextView.text, endsWith("0"))
-
-
-        }
+        driver.inputtingCharsTest()
     }
 }
